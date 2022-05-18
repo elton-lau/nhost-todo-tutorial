@@ -16,6 +16,7 @@
   margin: 16px;
 }
 
+
 .input {
   width: 500px;
   padding: 12px 20px;
@@ -34,6 +35,21 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #0070f3;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 1rem;
+  width: 20%;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-bottom: 1rem 0;
 }
 
 .footer a {

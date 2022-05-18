@@ -4,6 +4,8 @@ import styles from '../styles/Home.module.css'
 import { useQuery, gql, useMutation } from '@apollo/client'
 import Todo from '../components/Todo'
 import { useState } from 'react'
+import { useAuthenticated, useSignInEmailPassword, useSignOut } from '@nhost/react'
+import { useAuthQuery } from '@nhost/react-apollo'
 
 
 const GET_TODO = gql`
@@ -25,9 +27,24 @@ const ADD_TODO = gql`
 `
 
 export default function Home() {
-  const { data, loading, error } = useQuery(GET_TODO);
+  const { data, loading, error } = useAuthQuery(GET_TODO);
   const [todoTitle, setTodoTitle] = useState('')
   const [insertTodo] = useMutation(ADD_TODO)
+  const isAuthenticated = useAuthenticated()
+  const { signOut } = useSignOut()
+  const { signInEmailPassword } = useSignInEmailPassword()
+
+  const handleSignIn = async (e) => {
+    e.preventDefault()
+    await signInEmailPassword('hello@elton.me', '12345678')
+    console.log('user is signed in.')
+  }
+
+  const handleSignOut = async (e) => {
+    e.preventDefault()
+    await signOut()
+    console.log('user is signed out.')
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -64,6 +81,11 @@ export default function Home() {
         <form className={styles.form} onSubmit={handleSubmit}>
           <input className={styles.input} type="text" value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} placeholder="Enter a todo item" />
         </form>
+
+        {isAuthenticated ? 
+          <button className={styles.button} onClick={handleSignOut}>Sign Out</button> : 
+          <button className={styles.button} onClick={handleSignIn}>Sign In</button>
+        }
 
         {data ? <Todo loading={loading} error={error} data={data} /> : <h2>No Data</h2>}
       </main>

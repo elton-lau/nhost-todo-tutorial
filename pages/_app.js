@@ -4,7 +4,7 @@ import { NhostApolloProvider } from '@nhost/react-apollo'
 import '../styles/globals.css'
 
 const nhost = new NhostClient({
-  backendUrl: 'https://krmxirycculoyiqtfwvq.nhost.run'
+  backendUrl: process.env.NEXT_PUBLIC_BACKEND_ENDPOINT
 })
 
 function MyApp({ Component, pageProps }) {
